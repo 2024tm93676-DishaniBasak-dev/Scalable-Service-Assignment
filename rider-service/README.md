@@ -37,7 +37,7 @@ The Rider Service provides APIs to:
 4. Run the service
 5. The app will run at: http://127.0.0.1:5001/
 
-##Logging
+## Logging
 - Every API request is logged using app.logger (Flask built - in logger).
 - Logs are stored in console output, app.log and logs_riders table in MySQL for persistence.
 
@@ -45,7 +45,7 @@ The Rider Service provides APIs to:
 - Prometheus metrics are automatically exposed at /metrics.
 - Flask-Limiter is used to restrict clients to 20 requests per minute to prevent overload.
 
-##Folder Structure
+## Folder Structure
 rider-service/
 │
 ├── app.py                # Main Flask application
@@ -55,7 +55,7 @@ rider-service/
 ├── .gitignore            # Ignore unneeded files
 └── README.md             # This file
 
-##Version History
+## Version History
 Version	Description
 v1.0	  Initial Flask microservice (no containers)
 v2.0	  Dockerized version (containerized release)
