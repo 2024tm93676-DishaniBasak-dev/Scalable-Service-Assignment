@@ -46,17 +46,21 @@ The Rider Service provides APIs to:
 - Flask-Limiter is used to restrict clients to 20 requests per minute to prevent overload.
 
 ## Folder Structure
+```
 rider-service/
 │
-├── app.py                # Main Flask application
-├── requirements.txt      # Dependencies
-├── init_db.sql           # DB schema + seed data
-├── rhfd_riders.csv       # Sample dataset
-├── .gitignore            # Ignore unneeded files
-└── README.md             # This file
+├── app.py                  # Main Flask application
+├── requirements.txt        # Dependencies
+├── init_db.sql             # DB schema
+├── rhfd_riders.csv         # seed data
+├── .gitignore              # Ignore unneeded files
+└── README.md               # This file
+```
 
 ## Version History
-Version	Description
-v1.0	  Initial Flask microservice (no containers)
-v2.0	  Dockerized version (containerized release)
-v3.0	  Kubernetes deployment release
+| Version | Description                              |
+|---------|------------------------------------------|
+| v1.0    |Initial Flask microservice (no containers)|
+| v2.0    |Dockerized version (containerized release)|
+| v3.0    |Kubernetes deployment release             |
+
