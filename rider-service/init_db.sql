@@ -7,7 +7,8 @@
 
 -- Create the database (if not exists)
 CREATE DATABASE IF NOT EXISTS riders_db;
-USE riders_db;
+
+-- USE riders_db;    -- No USE statement needed — SQLAlchemy connects directly to riders_db.
 
 -- Table: riders
 CREATE TABLE IF NOT EXISTS riders (
@@ -26,14 +27,16 @@ CREATE TABLE IF NOT EXISTS logs_riders (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- CSV import step removed (handled by init_db.py)
+
 -- Import CSV Data into `riders` Table
-LOAD DATA LOCAL INFILE '/Users/dishanibasak/rider_python_flask/rhfd_riders.csv' -- change the location as per the csv file location
-INTO TABLE riders
-FIELDS TERMINATED BY ',' 
-ENCLOSED BY '"' 
-LINES TERMINATED BY '\n'
-IGNORE 1 LINES
-(name, email, phone);
+-- LOAD DATA LOCAL INFILE '/Users/dishanibasak/rider_python_flask/rhfd_riders.csv' -- change the location as per the csv file location
+-- INTO TABLE riders
+-- FIELDS TERMINATED BY ',' 
+-- ENCLOSED BY '"' 
+-- LINES TERMINATED BY '\n'
+-- IGNORE 1 LINES
+-- (name, email, phone);
 
 
 -- Verify Data

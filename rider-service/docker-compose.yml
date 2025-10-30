@@ -1,0 +1,48 @@
+# version: "3.9"
+
+services:
+  # Rider Service container
+  rider-service:
+    build: .
+    container_name: rider-service
+    ports:
+      - "5001:5001"
+    environment:
+      - DB_USER=root
+      - DB_PASS=Dishani99
+      - DB_HOST=rider-db
+      - DB_NAME=riders_db
+      - DB_PORT=3306
+      # For local Trip running -> leave default (localhost). If team runs trip container in same compose, set TRIP_HOST=trip-service
+      - TRIP_HOST=localhost
+      - TRIP_PORT=5002
+    depends_on:
+      - rider-db
+    volumes:
+      - ./logs:/app/logs
+      - ./rhfd_riders.csv:/app/rhfd_riders.csv:ro
+      - ./init_db.sql:/app/init_db.sql:ro  # optional, will be ignored if not present
+    networks:
+      - rider-network
+
+  # MySQL Database for Rider Service
+  rider-db:
+    image: mysql:8.0
+    container_name: rider-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Dishani99
+      MYSQL_DATABASE: riders_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - rider_data:/var/lib/mysql
+    networks:
+      - rider-network
+
+# Volumes and network configuration
+volumes:
+  rider_data:
+
+networks:
+  rider-network:

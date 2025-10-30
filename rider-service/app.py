@@ -14,25 +14,27 @@ app = Flask(__name__)
 
 
 # MySQL database connection configuration
-DB_USER = 'root'
-DB_PASS = 'Dishani99'
-DB_HOST = 'localhost'
-DB_NAME = 'riders_db'
-DB_PORT = 3306
+DB_USER = os.getenv('DB_USER','root')
+DB_PASS = os.getenv('DB_PASS','Dishani99')
+DB_HOST = os.getenv('DB_HOST', 'rider-db')
+DB_NAME = os.getenv('DB_NAME','riders_db')
+DB_PORT = int(os.getenv('DB_PORT', 3306))
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# Ensure logs directory exists (when running locally too)
+os.makedirs('/app/logs', exist_ok=True)
 
 # Enable logging and storing it in app.log and DB
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]',
     handlers=[
-        logging.FileHandler("app.log"),     # logs to file
-        logging.StreamHandler()             # logs to console
+        logging.FileHandler("/app/logs/app.log"),     # absolute path inside container
+        logging.StreamHandler()                       # logs to console (docker logs)
     ]
 )
 
@@ -158,7 +160,10 @@ def home():
 @app.route('/v1/riders/<int:rider_id>/trips', methods=['GET'])
 def get_rider_trips(rider_id):
     try:
-        trip_service_url = f"http://localhost:5002/v1/trips?rider_id={rider_id}"
+        # For local testing, default uses localhost
+        trip_host = os.getenv('TRIP_HOST', 'localhost')
+        trip_port = os.getenv('TRIP_PORT', '5002')
+        trip_service_url = f"http://{trip_host}:{trip_port}/v1/trips?rider_id={rider_id}" # changed as it allows switching from localhost (local dev) to trip-service later (compose file).
         response = requests.get(trip_service_url, timeout=5)
         trips_data = response.json() if response.status_code == 200 else []
         return jsonify({
@@ -182,6 +187,6 @@ def handle_bad_request(e):
 
 #Run the Application
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
+#    with app.app_context():
+#        db.create_all().    # Note: we do NOT call db.create_all() here because init_db.py will handle creation & seeding when container starts
     app.run(host='0.0.0.0', port=5001, debug=True)
