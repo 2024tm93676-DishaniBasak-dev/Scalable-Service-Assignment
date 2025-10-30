@@ -1,6 +1,8 @@
-# Rider Service
-This is the **Rider Microservice** built using **Python (Flask)** and **MySQL**.  
+# Rider Service (Version 2 – Dockerized Release)
+
+This is the **Rider Microservice** built using **Python (Flask)** and **MySQL**, now fully containerized using **Docker and Docker Compose**.  
 It manages rider profiles, including registration, profile updates, and account management.
+
 
 ## Overview
 The Rider Service provides APIs to:
@@ -11,12 +13,13 @@ The Rider Service provides APIs to:
 - Log requests into both console and MySQL database for observability.
 
 ## Tech Stack
-- Language: Python
-- Framework: Flask
-- Database: MySQL
-- ORM: SQLAlchemy
-- Monitoring: Prometheus and Flask Exporter
-- Rate Limiting: Flask-Limiter
+- **Language:** Python 3.10+
+- **Framework:** Flask
+- **Database:** MySQL
+- **ORM:** SQLAlchemy
+- **Monitoring:** Prometheus and Flask Exporter
+- **Rate Limiting:** Flask-Limiter
+- **Containerization:** Docker + Docker Compose  
 
 ## API Endpoints
 | Method  | Endpoint                | Description                   |
@@ -30,16 +33,36 @@ The Rider Service provides APIs to:
 | GET     | `/health`               | Health check                  |
 | GET     | `/metrics`              | Prometheus metrics endpoint   |
 
-## How to Run Locally
-1. Create a virtual environment
-2. Install dependencies
-3. Initialize the database
-4. Run the service
-5. The app will run at: http://127.0.0.1:5001/
+## How to Run with Docker Compose
+
+1. **Clone or download** this repository.  
+2. **Ensure Docker Desktop** is running.  
+3. In the project root folder, run:
+   ```
+   docker-compose up --build
+   ```
+4.Wait until you see:
+```
+DB available
+Tables created
+Inserted X riders
+```
+5.Access the service:
+- API → http://localhost:5001/v1/riders
+- Health → http://localhost:5001/v1/health
+- Metrics → http://localhost:5001/metrics
+
+To stop containers:
+```
+docker-compose down
+```
 
 ## Logging
-- Every API request is logged using app.logger (Flask built - in logger).
-- Logs are stored in console output, app.log and logs_riders table in MySQL for persistence.
+- Every API request is logged using Flask’s built-in logger.
+- Logs are stored in:
+  - app.log file
+  - Console output
+  - logs_riders table in MySQL (for persistence)
 
 ## Monitoring & Rate Limiting
 - Prometheus metrics are automatically exposed at /metrics.
@@ -50,11 +73,18 @@ The Rider Service provides APIs to:
 rider-service/
 │
 ├── app.py                  # Main Flask application
+├── init_db.py              # Database initialization and CSV seeding script (runs before Gunicorn)
+├── entrypoint.sh           # Entry script: initializes DB then launches Gunicorn server
+├── Dockerfile              # Docker build instructions for Rider microservice container
+├── docker-compose.yml      # Multi-container setup: Rider service + MySQL DB
 ├── requirements.txt        # Dependencies
 ├── init_db.sql             # DB schema
 ├── rhfd_riders.csv         # seed data
 ├── .gitignore              # Ignore unneeded files
+├── screenshots/
+│   └── (verification screenshots pdf)
 └── README.md               # This file
+
 ```
 
 ## Version History
