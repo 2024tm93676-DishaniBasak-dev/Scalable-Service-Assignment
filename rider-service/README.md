@@ -1,6 +1,6 @@
 # Rider Service (Version 3 – Kubernetes Release)
 
-This is the**Rider Microservice**, built using **Python (Flask)** and **MySQL**, now fully **containerized and deployed on Kubernetes (Minikube)**.
+This is the **Rider Microservice**, built using **Python (Flask)** and **MySQL**, now fully **containerized and deployed on Kubernetes (Minikube)**.
 It manages rider profiles — including registration, updates, and account management — and supports observability and rate limiting.
 
 
