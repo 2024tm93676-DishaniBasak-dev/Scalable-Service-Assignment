@@ -1,14 +1,47 @@
-     # Ignore all files ending with .log
-     *.log
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-     # Ignore the 'node_modules' directory
-     node_modules/
+# Ignore virtual environments
+venv/
+.env
+.env.*
 
-     # Ignore the 'build' directory
-     build/
+# Ignore log files
+*.log
 
-     # Ignore environment variable files
-     .env
+# Ignore SQLite or local DB backups (just in case)
+*.db
+*.sqlite3
+*.sql
+*.bak
 
-     # Ignore IDE-specific files (e.g., VS Code)
-     .vscode/
+# Ignore system/IDE files
+.vscode/
+.idea/
+.DS_Store
+
+# Ignore build and distribution directories
+build/
+dist/
+*.egg-info/
+
+# Ignore Docker-related temporary files
+*.pid
+*.seed
+*.tar
+*.gz
+
+# Ignore node modules (if any frontend part exists)
+node_modules/
+
+# Ignore Kubernetes or deployment temporary files
+*.crt
+*.key
+*.pem
+
+# Ignore secrets or local test configs
+secrets/
+config/
