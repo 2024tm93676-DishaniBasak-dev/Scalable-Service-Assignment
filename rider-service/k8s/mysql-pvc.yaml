@@ -1,0 +1,12 @@
+# Defines persistent storage for MySQL so data isn’t lost when the pod restarts.
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

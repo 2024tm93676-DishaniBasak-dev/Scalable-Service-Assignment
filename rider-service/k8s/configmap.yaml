@@ -1,0 +1,12 @@
+# Stores non-sensitive environment variables.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rider-config
+data:
+  DB_HOST: rider-db
+  DB_NAME: riders_db
+  DB_PORT: "3306"
+  TRIP_HOST: trip-service
+  TRIP_PORT: "5002"

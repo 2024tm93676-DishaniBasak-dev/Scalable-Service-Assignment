@@ -1,0 +1,46 @@
+# Main Rider microservice deployment. Flask app container, referencing ConfigMap, Secret, and MySQL.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rider-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rider-service
+  template:
+    metadata:
+      labels:
+        app: rider-service
+    spec:
+      containers:
+        - name: rider-service
+          image: rider-service:latest
+          imagePullPolicy: Never 
+          ports:
+            - containerPort: 5001
+          envFrom:
+            - configMapRef:
+                name: rider-config
+            - secretRef:
+                name: rider-secret
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
